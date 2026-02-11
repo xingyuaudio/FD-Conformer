@@ -1,0 +1,33 @@
+seed: 42
+device: "cuda"
+
+data:
+  npz_path: "data/sonicom.npz"
+  key: "H_log"
+  n_subjects: 200
+  n_dirs: 793
+  n_freq: 106
+  train_subjects: 180
+  n_measurements: 5   # 5 19 100
+
+train:
+  batch_size: 32
+  epochs: 800
+  lr: 1e-3
+  eval_every: 20
+  lambda_grad: 1.0
+  grad_type: "l1"       # l1 / l2
+  save_dir: "runs"
+  exp_name: "sonicom_conformer"
+
+model:
+  variant: "conformer"  # conformer / conformer_wo_conv / mlp / conv / dilated_b2
+  d_model: 128
+  d_ff: 256
+  n_heads: 8
+  n_layers: 4
+  conv_kernel: 7
+  head_hidden: 256
+  dropout: 0.1
+  use_freq_pe: true
+  spatial_act: "identity"  # identity / silu / relu

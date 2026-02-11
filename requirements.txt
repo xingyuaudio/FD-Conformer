@@ -1,0 +1,18 @@
+# Core
+numpy>=1.23,<2.0
+scipy>=1.10,<2.0
+#torch>=2.6.0
+
+# Config
+pyyaml>=6.0
+
+# Utils
+tqdm>=4.64,<5.0
+
+# Preprocessing (SOFA)
+requests>=2.28,<3.0
+sofar>=1.0,<2.0
+
+# Optional (plotting)
+matplotlib>=3.7
+
