@@ -17,7 +17,7 @@ Note:
 """
 
 # Create local dataset directory if it does not exist
-os.makedirs("data/raw", exist_ok=True)
+os.makedirs("raw/", exist_ok=True)
 
 # URL template for each participant ID
 url_template = (
@@ -25,12 +25,12 @@ url_template = (
     "{pid}/HRTF/HRTF/48kHz/{pid}_FreeFieldCompMinPhase_48kHz.sofa"
 )
 
-# Download .sofa files for P0001 to P0325
-for i in range(1, 326):
+# Download .sofa files for P0001 to P0201
+for i in range(1, 201):
     pid = f"P{i:04d}"
     url = url_template.format(pid=pid)
     filename = f"{pid}.sofa"
-    save_path = os.path.join("dataset", filename)
+    save_path = os.path.join("raw/", filename)
 
     # Skip download if file already exists
     if os.path.exists(save_path):
