@@ -189,7 +189,7 @@ conda install pytorch=2.6.0 pytorch-cuda=12.4 -c pytorch -c nvidia
 If you use this code, please cite:
 
 ```
-
+https://arxiv.org/pdf/2602.11670
 ```
 
 
