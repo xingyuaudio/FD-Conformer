@@ -189,7 +189,12 @@ conda install pytorch=2.6.0 pytorch-cuda=12.4 -c pytorch -c nvidia
 If you use this code, please cite:
 
 ```
-https://arxiv.org/pdf/2602.11670
+@article{chen2026exploring,
+  title={Exploring Frequency-Domain Feature Modeling for HRTF Magnitude Upsampling},
+  author={Chen, Xingyu and Bi, Hanwen and Ma, Fei and Zhao, Sipei and Cheng, Eva and Burnett, Ian S},
+  journal={arXiv preprint arXiv:2602.11670},
+  year={2026}
+}
 ```
 
 
