@@ -7,9 +7,13 @@ Official PyTorch implementation of the paper:
 Accepted for publication in The Journal of the Acoustical Society of America (JASA).
 The final version is being prepared. Preprint: [arXiv:2602.11670](https://arxiv.org/abs/2602.11670).
 
-This repository investigates different frequency-domain modeling strategies
-(MLP, Conv1D, Dilated Conv, Conformer, etc.) for sparse-to-dense HRTF
-magnitude upsampling on the SONICOM dataset.
+HRTF upsampling is inherently a spatial reconstruction task: recovering HRTFs
+at unmeasured directions from sparse spatial measurements. This work complements
+spatial reconstruction by organizing HRTF features along the frequency axis,
+enabling explicit modeling of cross-frequency feature correlations. We
+systematically evaluate different frequency-domain modeling strategies
+(MLP, Conv1D, Dilated Conv, Conformer, etc.) for HRTF magnitude upsampling
+on the SONICOM dataset.
 
 ---
 
