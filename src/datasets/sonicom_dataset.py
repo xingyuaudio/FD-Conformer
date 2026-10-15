@@ -7,6 +7,8 @@ class SonicomHLogDataset(Dataset):
     """
     Dataset for SONICOM H_log stored in npz.
 
+    Float32 storage is shared with H_log; do not mutate it while in use.
+
     Returns:
         x_sparse: (D,2,106)  float32
         y_dense : (793,2,106) float32
@@ -17,7 +19,7 @@ class SonicomHLogDataset(Dataset):
         input_didxs: (D,)
         subject_indices: list of subject ids to use
         """
-        self.H = H_log.astype(np.float32)
+        self.H = H_log.astype(np.float32, copy=False)
         self.input_didxs = input_didxs.astype(np.int64)
         self.subject_indices = subject_indices.astype(np.int64)
 

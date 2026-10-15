@@ -107,6 +107,7 @@ def main(cfg_path: str):
     for epoch in range(cfg["train"]["epochs"]):
         model.train()
         train_loss_sum = 0.0
+        train_sample_count = 0
 
         for x_sparse, y_dense in train_loader:
             x_sparse = x_sparse.to(device)
@@ -124,9 +125,13 @@ def main(cfg_path: str):
             loss.backward()
             optimizer.step()
 
-            train_loss_sum += loss.item()
+            batch_size = x_sparse.shape[0]
+            train_loss_sum += loss.item() * batch_size
+            train_sample_count += batch_size
 
-        train_loss = train_loss_sum / len(train_loader)
+        if train_sample_count == 0:
+            raise ValueError("Cannot train on an empty data loader.")
+        train_loss = train_loss_sum / train_sample_count
 
         if train_loss < best_train_loss:
             best_train_loss = train_loss
@@ -142,13 +147,20 @@ def main(cfg_path: str):
             model.eval()
             with torch.no_grad():
                 test_lsd = 0.0
+                test_sample_count = 0
                 for x_sparse, y_dense in test_loader:
                     x_sparse = x_sparse.to(device)
                     y_dense = y_dense.to(device)
                     pred = model(x_sparse)
-                    test_lsd += lsd_loss_unseen(pred, y_dense, unseen_didxs).item()
+                    batch_size = x_sparse.shape[0]
+                    test_lsd += lsd_loss_unseen(
+                        pred, y_dense, unseen_didxs
+                    ).item() * batch_size
+                    test_sample_count += batch_size
 
-                test_lsd /= len(test_loader)
+                if test_sample_count == 0:
+                    raise ValueError("Cannot evaluate an empty data loader.")
+                test_lsd /= test_sample_count
 
             print(f"Epoch {epoch:04d} | Test LSD(unseen) = {test_lsd:.4f}")
 

@@ -7,7 +7,8 @@ These subsets correspond to:
     - 19 measurements
     - 100 measurements
 
-Indices refer to the fixed SONICOM 793-direction grid.
+Indices are zero-based and refer to the fixed SONICOM 793-direction grid.
+Their order defines the checkpoint input channels and must be preserved.
 """
 
 import numpy as np
@@ -23,14 +24,12 @@ MEAS3 = np.array([
 
 # ===============================
 # 5 measurements
-# (replace with your actual indices)
 # ===============================
 MEAS5 = np.array([0, 4, 8, 203, 612], dtype=np.int64)
 
 
 # ===============================
 # 19 measurements
-# (replace with your actual indices)
 # ===============================
 MEAS19 = np.array([
     0,
@@ -57,7 +56,6 @@ MEAS19 = np.array([
 
 # ===============================
 # 100 measurements
-# (replace with your actual indices)
 # ===============================
 MEAS100 = np.array([
     0,
@@ -168,7 +166,7 @@ MEAS100 = np.array([
 # ===============================
 def get_sparse_set(n_measurements: int) -> np.ndarray:
     """
-    Returns sparse direction indices for given number of measurements.
+    Return a fresh copy of the ordered sparse direction indices.
 
     Args:
         n_measurements: 3, 5, 19, or 100
@@ -177,13 +175,13 @@ def get_sparse_set(n_measurements: int) -> np.ndarray:
         didxs: np.ndarray (D,)
     """
     if n_measurements == 3:
-        return MEAS3
+        return MEAS3.copy()
     elif n_measurements == 5:
-        return MEAS5
+        return MEAS5.copy()
     elif n_measurements == 19:
-        return MEAS19
+        return MEAS19.copy()
     elif n_measurements == 100:
-        return MEAS100
+        return MEAS100.copy()
     else:
         raise ValueError(
             f"Unsupported number of measurements: {n_measurements}. "

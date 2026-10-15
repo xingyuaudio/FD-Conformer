@@ -56,6 +56,7 @@ def evaluate(model, loader, unseen_didxs, device):
     model.eval()
     total_lsd = 0.0
     total_ild = 0.0
+    sample_count = 0
 
     with torch.no_grad():
         for x_sparse, y_dense in loader:
@@ -64,18 +65,22 @@ def evaluate(model, loader, unseen_didxs, device):
             y_dense = y_dense.to(device)
 
             pred = model(x_sparse)
+            batch_size = x_sparse.shape[0]
+            sample_count += batch_size
 
             # LSD (unseen directions only)
             total_lsd += lsd_loss_unseen(
                 pred, y_dense, unseen_didxs
-            ).item()
+            ).item() * batch_size
 
             # ILD (full directions)
             pred_np = pred.cpu().numpy()
             gt_np = y_dense.cpu().numpy()
-            total_ild += ild_mae(pred_np, gt_np)
+            total_ild += ild_mae(pred_np, gt_np) * batch_size
 
-    return total_lsd / len(loader), total_ild / len(loader)
+    if sample_count == 0:
+        raise ValueError("Cannot evaluate an empty data loader.")
+    return total_lsd / sample_count, total_ild / sample_count
 
 
 # =========================================================
@@ -128,19 +133,19 @@ def main(cfg_path: str, ckpt_path: str):
     model = build_model(cfg, D).to(device)
 
     # -------------------------
-    # Load checkpoint (PyTorch 2.6 safe)
+    # Load tensor weights without unrestricted pickle deserialization
     # -------------------------
     checkpoint = torch.load(
         ckpt_path,
         map_location=device,
-        weights_only=False
+        weights_only=True
     )
 
     # if checkpoint is pure state_dict
     if "model_state" in checkpoint:
-        model.load_state_dict(checkpoint["model_state"])
+        model.load_state_dict(checkpoint["model_state"], strict=True)
     else:
-        model.load_state_dict(checkpoint)
+        model.load_state_dict(checkpoint, strict=True)
 
     print("Loaded checkpoint:", ckpt_path)
 

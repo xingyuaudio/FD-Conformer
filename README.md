@@ -19,6 +19,10 @@ on the SONICOM dataset.
 
 # 1. Dataset Preparation
 
+Run the commands below from the repository root. Training/evaluation paths in
+YAML are relative to the current working directory. The data preparation scripts
+default to this repository's `data/raw/` and `data/sonicom.npz` paths.
+
 We use the **SONICOM HRTF dataset** (200 subjects, 793 directions).
 
 ---
@@ -30,23 +34,23 @@ We use the **SONICOM HRTF dataset** (200 subjects, 793 directions).
 You can batch-download `.sofa` files using:
 
 ```bash
-python tools/download_sonicom.py
+python data/download_sonicom.py
 ```
 
 This will download files:
 
 ```
-raw/P0001.sofa
+data/raw/P0001.sofa
 ...
-raw/P0200.sofa
+data/raw/P0200.sofa
 ```
 
 ---
 
-### Step 2: Preprocess to generate `sonicom.npz`
+### Step 2: Preprocess to generate `data/sonicom.npz`
 
 ```bash
-python tools/preprocess_sonicom.py
+python data/preprocess.py
 ```
 
 This will generate:
@@ -69,13 +73,39 @@ H_log: (200, 793, 2, 106)
 
 ---
 
-## Option B — Directly use provided `.npz`
+## Option B — Use a preprocessed `.npz`
 
 ```
 data/sonicom.npz
 ```
 
-You can skip the raw download and preprocessing steps.
+If you already have this file, you can skip raw download and preprocessing.
+Its `H_log` array must have shape `(200, 793, 2, 106)` in float32 dB magnitudes.
+
+### Data and pretrained checkpoint downloads
+
+The processed data and pretrained weights are not bundled in this repository.
+Their download links will be added after the complete artifact release is
+published; the table below describes the intended local placement.
+
+| Artifact | Download | Local path |
+|---|---|---|
+| SONICOM processed data | Pending publication | `data/sonicom.npz` |
+| 3-point Conformer | Pending publication | `checkpoints/m3/best_model.pt` |
+| 5-point Conformer | Pending publication | `checkpoints/m5/best_model.pt` |
+| 19-point Conformer | Pending publication | `checkpoints/m19/best_model.pt` |
+| 100-point Conformer | Pending publication | `checkpoints/m100/best_model.pt` |
+
+The existing [Zenodo v1.0 archive](https://zenodo.org/records/21134348) contains
+the source snapshot only. [The all-versions DOI](https://doi.org/10.5281/zenodo.21134347)
+will resolve to the latest published version. Neither link currently provides
+the processed data or pretrained checkpoints.
+
+Future downloads will include matching inference configurations and checksums.
+Set `data.n_measurements` and the model settings to match the selected weights.
+Sparse indices in `src/datasets/sparse_sets.py` are zero-based and ordered; do
+not reorder them. Retain the original SONICOM attribution and license when
+sharing derived data.
 
 ---
 
@@ -112,12 +142,15 @@ Training will:
 - Save best model to:
 
 ```
-runs/sonicom_<variant>_<date>/best_model.pt
+runs/<exp_name>_<timestamp>/best_model.pt
 ```
 
 ---
 
 # 3. Evaluation
+
+The checkpoint selected during training minimizes the sample-weighted training
+shape loss. Test metrics are monitoring results and do not select the checkpoint.
 
 After training, evaluate using:
 
@@ -132,7 +165,7 @@ Evaluation reports:
 - LSD (Log Spectral Distortion) on unseen directions  
 - Broadband ILD MAE  
 
-Example output:
+Illustrative output (not reference benchmark scores):
 
 ```
 Evaluation Results
@@ -174,18 +207,20 @@ Python 3.10
 PyTorch 2.6.0
 ```
 
-Install dependencies:
+Install the pinned PyTorch runtime first. For CUDA 12.4 and a compatible driver:
 
 ```bash
-pip install -r requirements.txt
+python -m pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
+python -m pip install -r requirements.txt
 ```
-### Install PyTorch (recommended)
 
-For CUDA 12.4:
+For CPU-only use, replace the first command with:
 
 ```bash
-conda install pytorch=2.6.0 pytorch-cuda=12.4 -c pytorch -c nvidia
+python -m pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu
 ```
+
+See the [official PyTorch installation commands](https://pytorch.org/get-started/previous-versions/).
 
 
 
@@ -206,3 +241,14 @@ If you use this code, please cite:
 
 
 
+
+## Small regression checks
+
+With the listed dependencies installed, run:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+These checks cover uneven batches, safe tensor loading, sparse-index copies,
+shared float32 dataset storage, and data-script import/validation behavior.
