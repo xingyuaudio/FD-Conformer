@@ -84,28 +84,47 @@ Its `H_log` array must have shape `(200, 793, 2, 106)` in float32 dB magnitudes.
 
 ### Data and pretrained checkpoint downloads
 
-The processed data and pretrained weights are not bundled in this repository.
-Their download links will be added after the complete artifact release is
-published; the table below describes the intended local placement.
+Preprocessed SONICOM data, pretrained Conformer checkpoints, and matching
+evaluation configurations are available on [Hugging Face](https://huggingface.co/xingyuchen-8/FD-Conformer).
+The links below pin the verified artifact revision.
 
-| Artifact | Download | Local path |
+| Artifact | Download | Placement after download/extraction |
 |---|---|---|
-| SONICOM processed data | Pending publication | `data/sonicom.npz` |
-| 3-point Conformer | Pending publication | `checkpoints/m3/best_model.pt` |
-| 5-point Conformer | Pending publication | `checkpoints/m5/best_model.pt` |
-| 19-point Conformer | Pending publication | `checkpoints/m19/best_model.pt` |
-| 100-point Conformer | Pending publication | `checkpoints/m100/best_model.pt` |
+| Preprocessed SONICOM data | [sonicom.npz](https://huggingface.co/xingyuchen-8/FD-Conformer/resolve/8b8a9116547ff54a1238fcb1b34521ed5cbf29a4/sonicom.npz) | `data/sonicom.npz` |
+| Conformer checkpoints (3, 5, 19, 100 points) | [checkpoints.zip](https://huggingface.co/xingyuchen-8/FD-Conformer/resolve/8b8a9116547ff54a1238fcb1b34521ed5cbf29a4/checkpoints.zip) | `checkpoints/m{3,5,19,100}/best_model.pt` |
+| Matching evaluation configurations | [configs.zip](https://huggingface.co/xingyuchen-8/FD-Conformer/resolve/8b8a9116547ff54a1238fcb1b34521ed5cbf29a4/configs.zip) | `configs/sonicom_m{3,5,19,100}.yaml` |
+| SHA256 checksums | [SHA256SUMS.txt](https://huggingface.co/xingyuchen-8/FD-Conformer/resolve/8b8a9116547ff54a1238fcb1b34521ed5cbf29a4/SHA256SUMS.txt) | Verify the three downloaded files |
 
-The existing [Zenodo v1.0 archive](https://zenodo.org/records/21134348) contains
-the source snapshot only. [The all-versions DOI](https://doi.org/10.5281/zenodo.21134347)
-will resolve to the latest published version. Neither link currently provides
-the processed data or pretrained checkpoints.
+Download all four files into the repository root, either from the links above
+or with the following Linux/WSL commands:
 
-Future downloads will include matching inference configurations and checksums.
-Set `data.n_measurements` and the model settings to match the selected weights.
-Sparse indices in `src/datasets/sparse_sets.py` are zero-based and ordered; do
-not reorder them. Retain the original SONICOM attribution and license when
-sharing derived data.
+```bash
+BASE_URL="https://huggingface.co/xingyuchen-8/FD-Conformer/resolve/8b8a9116547ff54a1238fcb1b34521ed5cbf29a4"
+for file in sonicom.npz checkpoints.zip configs.zip SHA256SUMS.txt; do
+    curl --fail --location --retry 3 "$BASE_URL/$file" --output "$file" || exit 1
+done
+```
+
+Verify all three payload files, then place the data and extract both archives:
+
+```bash
+sha256sum -c SHA256SUMS.txt &&
+mkdir -p data &&
+mv sonicom.npz data/sonicom.npz &&
+unzip checkpoints.zip &&
+unzip configs.zip
+```
+
+The [Zenodo v1.0 archive](https://zenodo.org/records/21134348) preserves the
+original source snapshot. Use the Hugging Face links above for these data,
+weights, and configurations.
+
+Sparse indices in `src/datasets/sparse_sets.py` are zero-based and ordered;
+preserve their exact sequence. Checkpoints and evaluation configurations are
+released under MIT. The processed SONICOM data retain **CC BY-SA 3.0**, as
+specified in the original SOFA files. Please retain the original dataset
+attribution and cite Engel et al. (2023), “The SONICOM HRTF Dataset,”
+*JAES*, 71(5), 241–253.
 
 ---
 
@@ -152,7 +171,22 @@ runs/<exp_name>_<timestamp>/best_model.pt
 The checkpoint selected during training minimizes the sample-weighted training
 shape loss. Test metrics are monitoring results and do not select the checkpoint.
 
-After training, evaluate using:
+
+To evaluate the downloaded pretrained checkpoints, use the matching YAML file
+and checkpoint. For example, for 5 measurement points:
+
+```bash
+python src/eval.py \
+    --config configs/sonicom_m5.yaml \
+    --ckpt checkpoints/m5/best_model.pt
+```
+
+Replace both `m5` occurrences with `m3`, `m19`, or `m100` for the other
+measurement counts. The supplied YAML files are inference/evaluation
+configurations; their training fields retain repository defaults and do not
+reconstruct all historical training hyperparameters.
+
+After training your own model, evaluate using:
 
 ```bash
 python src/eval.py \
