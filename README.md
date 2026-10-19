@@ -4,8 +4,9 @@ Official PyTorch implementation of the paper:
 
 > **Exploring Frequency-Domain Feature Modeling for HRTF Magnitude Upsampling**
 
-Accepted for publication in The Journal of the Acoustical Society of America (JASA).
-The final version is being prepared. Preprint: [arXiv:2602.11670](https://arxiv.org/abs/2602.11670).
+Accepted for publication in *The Journal of the Acoustical Society of America*
+(**JASA**) on **October 2, 2026**. The final journal version will be available
+soon. Preprint: [arXiv:2602.11670](https://arxiv.org/abs/2602.11670).
 
 HRTF upsampling is inherently a spatial reconstruction task: recovering HRTFs
 at unmeasured directions from sparse spatial measurements. This work complements
@@ -14,6 +15,12 @@ enabling explicit modeling of cross-frequency feature correlations. We
 systematically evaluate different frequency-domain modeling strategies
 (MLP, Conv1D, Dilated Conv, Conformer, etc.) for HRTF magnitude upsampling
 on the SONICOM dataset.
+
+**Recent follow-up work — GeoAtt:** [arXiv:2609.25995](https://arxiv.org/abs/2609.25995).
+GeoAtt uses geometry-aware, query-conditioned aggregation to perform HRTF
+magnitude interpolation across different measurement counts and spatial layouts
+with a single model and a single set of weights. Code and pretrained weights
+will be released soon.
 
 ---
 
@@ -266,6 +273,9 @@ See [NVIDIA's support matrix](https://docs.nvidia.com/deeplearning/cudnn/backend
 ---
 
 # 6. Citation
+
+The final JASA version will be available soon. We will update the citation
+below to the journal reference once the publication details are available.
 
 If you use this code, please cite:
 
