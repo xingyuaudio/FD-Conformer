@@ -197,7 +197,7 @@ python src/eval.py \
 Evaluation reports:
 
 - LSD (Log Spectral Distortion) on unseen directions  
-- Broadband ILD MAE  
+- Broadband ILD MAE over all directions (the current evaluation script's convention)  
 
 Illustrative output (not reference benchmark scores):
 
@@ -255,6 +255,11 @@ python -m pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/
 ```
 
 See the [official PyTorch installation commands](https://pytorch.org/get-started/previous-versions/).
+
+For Volta/V100 GPUs, use a cuDNN release that supports compute capability 7.0.
+An existing environment may load a newer, incompatible cuDNN even with PyTorch
+2.6.0; cuDNN 9.14 does not list Volta among its supported architectures.
+See [NVIDIA's support matrix](https://docs.nvidia.com/deeplearning/cudnn/backend/v9.14.0/reference/support-matrix.html).
 
 
 
