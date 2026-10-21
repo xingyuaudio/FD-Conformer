@@ -102,6 +102,25 @@ The links below pin the verified artifact revision.
 | Matching evaluation configurations | [configs.zip](https://huggingface.co/xingyuchen-8/FD-Conformer/resolve/8b8a9116547ff54a1238fcb1b34521ed5cbf29a4/configs.zip) | `configs/sonicom_m{3,5,19,100}.yaml` |
 | SHA256 checksums | [SHA256SUMS.txt](https://huggingface.co/xingyuchen-8/FD-Conformer/resolve/8b8a9116547ff54a1238fcb1b34521ed5cbf29a4/SHA256SUMS.txt) | Verify the three downloaded files |
 
+The four models are members of `checkpoints.zip`; the paths below are archive
+members and local paths after extraction, not separate model download URLs.
+
+| Measurement count | Member of `checkpoints.zip` | Member of `configs.zip` |
+|---|---|---|
+| 3 | `checkpoints/m3/best_model.pt` | `configs/sonicom_m3.yaml` |
+| 5 | `checkpoints/m5/best_model.pt` | `configs/sonicom_m5.yaml` |
+| 19 | `checkpoints/m19/best_model.pt` | `configs/sonicom_m19.yaml` |
+| 100 | `checkpoints/m100/best_model.pt` | `configs/sonicom_m100.yaml` |
+
+`configs.zip` also contains `artifact_manifest.json` and `ARTIFACTS_README.md`.
+The manifest records individual checkpoint/configuration SHA256 hashes, ordered
+sparse-direction indices, and source commit
+[`d753ec1`](https://github.com/xingyuaudio/FD-Conformer/tree/d753ec16c2f160874d06e307e0d698adb1296336).
+Archive and member hashes have been checked against the published checksum
+file and manifest. This establishes artifact integrity and file mapping;
+compatibility with another implementation and full paper-result reproduction
+require separate validation.
+
 Download all four files into the repository root, either from the links above
 or with the following Linux/WSL commands:
 
