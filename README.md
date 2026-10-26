@@ -19,8 +19,9 @@ on the SONICOM dataset.
 **Recent follow-up work — GeoAtt:** [arXiv:2609.25995](https://arxiv.org/abs/2609.25995).
 GeoAtt uses geometry-aware, query-conditioned aggregation to perform HRTF
 magnitude interpolation across different measurement counts and spatial layouts
-with a single model and a single set of weights. Code and pretrained weights
-will be released soon.
+with a single model and a single set of weights. Code is available in
+[GeoAtt-HRTF](https://github.com/xingyuaudio/GeoAtt-HRTF), with preprocessed data
+and pretrained weights on [Hugging Face](https://huggingface.co/xingyuchen-8/GeoAtt-HRTF).
 
 ---
 
