@@ -4,9 +4,9 @@ Official PyTorch implementation of the paper:
 
 > **Exploring Frequency-Domain Feature Modeling for HRTF Magnitude Upsampling**
 
-Accepted for publication in *The Journal of the Acoustical Society of America*
-(**JASA**) on **October 2, 2026**. The final journal version will be available
-soon. Preprint: [arXiv:2602.11670](https://arxiv.org/abs/2602.11670).
+Published online on **November 2, 2026** in *The Journal of the Acoustical Society of America* (**JASA**), **Vol. 160, Issue 5**.
+Official journal article: [https://doi.org/10.1121/10.0047189](https://doi.org/10.1121/10.0047189).
+Preprint: [arXiv:2602.11670](https://arxiv.org/abs/2602.11670).
 
 HRTF upsampling is inherently a spatial reconstruction task: recovering HRTFs
 at unmeasured directions from sparse spatial measurements. This work complements
@@ -275,17 +275,18 @@ See [NVIDIA's support matrix](https://docs.nvidia.com/deeplearning/cudnn/backend
 
 # 6. Citation
 
-The final JASA version will be available soon. We will update the citation
-below to the journal reference once the publication details are available.
-
 If you use this code, please cite:
 
 ```
 @article{chen2026exploring,
   title={Exploring Frequency-Domain Feature Modeling for HRTF Magnitude Upsampling},
   author={Chen, Xingyu and Bi, Hanwen and Ma, Fei and Zhao, Sipei and Cheng, Eva and Burnett, Ian S},
-  journal={arXiv preprint arXiv:2602.11670},
-  year={2026}
+  journal={The Journal of the Acoustical Society of America},
+  volume={160},
+  number={5},
+  year={2026},
+  doi={10.1121/10.0047189},
+  url={https://doi.org/10.1121/10.0047189}
 }
 ```
 
