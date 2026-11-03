@@ -279,11 +279,12 @@ If you use this code, please cite:
 
 ```
 @article{chen2026exploring,
-  title={Exploring Frequency-Domain Feature Modeling for HRTF Magnitude Upsampling},
-  author={Chen, Xingyu and Bi, Hanwen and Ma, Fei and Zhao, Sipei and Cheng, Eva and Burnett, Ian S},
+  title={Exploring frequency-domain feature modeling for head-related transfer functions magnitude upsampling},
+  author={Chen, Xingyu and Bi, Hanwen and Ma, Fei and Zhao, Sipei and Cheng, Eva and Burnett, Ian S.},
   journal={The Journal of the Acoustical Society of America},
   volume={160},
   number={5},
+  pages={3663--3674},
   year={2026},
   doi={10.1121/10.0047189},
   url={https://doi.org/10.1121/10.0047189}
