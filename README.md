@@ -1,8 +1,8 @@
-# Exploring Frequency-Domain Feature Modeling for HRTF Magnitude Upsampling
+# FD-Conformer
 
 Official PyTorch implementation of the paper:
 
-> **Exploring Frequency-Domain Feature Modeling for HRTF Magnitude Upsampling**
+> **Exploring frequency-domain feature modeling for head-related transfer functions magnitude upsampling**
 
 Published online on **November 2, 2026** in *The Journal of the Acoustical Society of America* (**JASA**), **Vol. 160, Issue 5**.
 Official journal article: [https://doi.org/10.1121/10.0047189](https://doi.org/10.1121/10.0047189).
